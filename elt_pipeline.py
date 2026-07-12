@@ -4,6 +4,8 @@ import sqlite3
 import schedule
 import time  
 import logging
+import psycopg2
+from sqlalchemy import create_engine
 
 #Automation of logging begin 
 logging.basicConfig(
@@ -52,13 +54,13 @@ def transform_data(data):
 #clean_data = transform_data(data)
 #print(clean_data.head(5))
 
-#Loading Part begine 
+# Loading Part begins
 
 def load_data(data):
-    conn = sqlite3.connect('pipeline.db')
-    data.to_sql('ETLpartice', conn, if_exists='replace', index=False)
-    conn.close()
-    print('Load Data!')
+    engine = create_engine('postgresql://postgres:saud1234@localhost:5432/etl_project')
+    data.to_sql('electricity', engine, if_exists='replace', index=False)
+    print('Load Done - Data in PostgreSQL!')
+    logging.info('Load Done - PostgreSQL')
 
 #load_data(clean_data)
 
